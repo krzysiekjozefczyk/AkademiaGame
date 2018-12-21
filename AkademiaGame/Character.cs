@@ -17,6 +17,16 @@ namespace AkademiaGame
 
         public abstract void Attack(Monster monster);
         public abstract void UsePotion();
+        public void MonsterisDead(Monster monster)
+        {
+            if (monster.hp <= 0)
+            {
+                hp += 5;
+                Program.PrintLetters("Gratulacje udało Ci się pokonać potwora i przejść do następnego poziomu");
+                Thread.Sleep(1000);
+                Console.Clear();
+            }
+        }
 
     }
 
@@ -31,22 +41,24 @@ namespace AkademiaGame
         }
         public override void Attack(Monster monster)
         {
-            if(monster.hp <= 0)
-            {
-                monster.hp = 0;
-                Program.PrintLetters("Gratulacje udało Ci się pokonać potwora");
-                Thread.Sleep(1000);
-                Console.Clear();
-            }
 
-            if(monster is Spider)
+            if (monster is Spider)
             {
                 monster.hp -= damage;
-                Console.WriteLine($"Życie pająka: ", monster.hp);
+                if (monster.hp <= 0)
+                    monster.hp = 0;
+                Console.WriteLine($"Życie pająka:{monster.hp}");
                 Thread.Sleep(2000);
 
-                Console.WriteLine("Pająk atakuje!");
-                hp -= monster.damage;
+                MonsterisDead(monster);
+
+
+                if (monster.hp > 0)
+                {
+                    Console.WriteLine("Pająk atakuje!");
+                    hp -= monster.damage;
+                }
+
                 Thread.Sleep(2000);
                 Console.Clear();
             }
@@ -54,11 +66,18 @@ namespace AkademiaGame
             if (monster is Troll)
             {
                 monster.hp -= damage;
-                Console.WriteLine($"Życie trolla: ", monster.hp);
+                if (monster.hp <= 0)
+                    monster.hp = 0;
+                Console.WriteLine($"Życie trolla: {monster.hp}");
                 Thread.Sleep(2000);
 
-                Console.WriteLine("Troll atakuje!");
-                hp -= monster.damage;
+                MonsterisDead(monster);
+
+                if (monster.hp > 0)
+                {
+                    Console.WriteLine("Troll atakuje!");
+                    hp -= monster.damage;
+                }
                 Thread.Sleep(2000);
                 Console.Clear();
             }
@@ -66,11 +85,18 @@ namespace AkademiaGame
             if (monster is Dragon)
             {
                 monster.hp -= damage;
-                Console.WriteLine($"Życie smoka: ", monster.hp);
+                if (monster.hp <= 0)
+                    monster.hp = 0;
+                Console.WriteLine($"Życie smoka: {monster.hp}");
                 Thread.Sleep(2000);
 
-                Console.WriteLine("Smok atakuje!");
-                hp -= monster.damage;
+                MonsterisDead(monster);
+
+                if (monster.hp > 0)
+                {
+                    Console.WriteLine("Smok atakuje!");
+                    hp -= monster.damage;
+                }
                 Thread.Sleep(2000);
                 Console.Clear();
             }
@@ -78,7 +104,7 @@ namespace AkademiaGame
 
         public override void UsePotion()
         {
-            if(potionAumount > 0)
+            if (potionAumount > 0)
             {
                 hp += random.Next(2, 4);
                 potionAumount--;
@@ -87,6 +113,7 @@ namespace AkademiaGame
             {
                 Console.WriteLine("Nie posiadasz juz butelek");
             }
+            Console.Clear();
         }
     }
 }
