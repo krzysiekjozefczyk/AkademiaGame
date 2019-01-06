@@ -7,50 +7,30 @@ using System.Threading.Tasks;
 
 namespace AkademiaGame
 {
-    abstract class Character
+    class Mage : Character
+
     {
-        public int hp { get; set; }
-        public int mana { get; set; }
-        protected int shield { get; set; }
-        protected int damage { get; set; }
-        protected int potionAumount { get; set; }
-        protected Random random = new Random();
-
-        public abstract void Attack(Monster monster);
-        public abstract void UsePotion();
-        public abstract void UseManaPotion();
-        public void MonsterisDead(Monster monster)
+        protected int manaPotionAmount { get; set; }
+        public Mage()
         {
-            if (monster.hp <= 0)
-            {
-                hp += 5;
-                Program.PrintLetters("Gratulacje udało Ci się pokonać potwora i przejść do następnego poziomu");
-                Thread.Sleep(1000);
-                Console.Clear();
-            }
-        }
-
-    }
-
-    class Warrior : Character
-    {
-        public Warrior()
-        {
-            hp = 15;
-            shield = 5;
-            damage = random.Next(3, 6);
+            hp = 10;
+            mana = 20;
             potionAumount = 3;
+            manaPotionAmount = 5;
+
         }
         public override void Attack(Monster monster)
         {
-
             if (monster is Spider)
             {
                 monster.hp -= damage;
+                mana -= random.Next(2, 5);
+
                 if (monster.hp <= 0)
                     monster.hp = 0;
+
                 Console.WriteLine($"Życie pająka:{monster.hp}");
-                Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(2000);
 
                 MonsterisDead(monster);
 
@@ -68,6 +48,7 @@ namespace AkademiaGame
             if (monster is Troll)
             {
                 monster.hp -= damage;
+                mana -= random.Next(2, 5);
                 if (monster.hp <= 0)
                     monster.hp = 0;
                 Console.WriteLine($"Życie trolla: {monster.hp}");
@@ -87,6 +68,7 @@ namespace AkademiaGame
             if (monster is Dragon)
             {
                 monster.hp -= damage;
+                mana -= random.Next(2, 5);
                 if (monster.hp <= 0)
                     monster.hp = 0;
                 Console.WriteLine($"Życie smoka: {monster.hp}");
@@ -104,22 +86,20 @@ namespace AkademiaGame
             }
         }
 
-        public override void UseManaPotion()
-        {
-            Console.WriteLine("Ta umiejętność jest zablokowana dla tej klasy");
-        }
-
         public override void UsePotion()
         {
-            if (potionAumount > 0)
+            throw new NotImplementedException();
+        }
+
+        public override void UseManaPotion()
+        {
+            if (manaPotionAmount > 0)
             {
-                hp += random.Next(2, 4);
-                potionAumount--;
-            }
-            else
-            {
-                Console.WriteLine("Nie posiadasz juz butelek");
+                mana += 3;
+                manaPotionAmount--;
             }
         }
+
+
     }
 }

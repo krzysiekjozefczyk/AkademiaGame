@@ -21,9 +21,21 @@ namespace AkademiaGame
                 }
 
                 Console.WriteLine($"Życie postaci: { character.hp}");
+                Console.WriteLine();
+                Console.WriteLine();
                 Console.WriteLine("Wybierz co chcesz zrobić.");
-                Console.WriteLine("1 - Atakuj");
-                Console.WriteLine("2 - Ulecz się");
+                if (character is Warrior)
+                {
+                    Console.WriteLine("1 - Atakuj");
+                    Console.WriteLine("2 - Ulecz się");
+                }
+                else if(character is Mage)
+                {
+                    Console.WriteLine("1 - Użyj zaklęcia");
+                    Console.WriteLine("2 - Ulecz się");
+                    Console.WriteLine("3 - Zregeneruj mane");
+                    Console.WriteLine($"Ilość many: {character.mana}");
+                }
                 Console.Write("Wybór: ");
 
                 int chooseAction = Int32.Parse(Console.ReadLine());
@@ -36,6 +48,9 @@ namespace AkademiaGame
                     case 2:
                         character.UsePotion();
                         break;
+                    case 3:
+                        character.UseManaPotion();
+                            break; 
                 }
             }
 
@@ -56,6 +71,7 @@ namespace AkademiaGame
         {
 
             Character warrior = new Warrior();
+            Character mage = new Mage();
 
             Monster spider = new Spider();
             Monster troll = new Troll();
@@ -90,6 +106,12 @@ namespace AkademiaGame
                 case 2:
                     PrintLetters("Grasz jako Mag. Twoim zadaniem jest pokonaie 3 potworów. Z każdym kolejnym poziomem przeciwnicy będą trudniejsi do pokoania.Lecz za każdego pokonanego stwora otrzymujesz dodatkowe zadawane obrażenia oraz regeneruje ci się mana. Z potwora może wypaść uzdrawiający napój. Na start masz ich 3. Powodzenia! ");
                     Thread.Sleep(2000);
+                    while(mage.hp > 0)
+                    {
+                        Fight(mage, spider);
+                        Fight(mage, troll);
+                        Fight(mage, dragon);
+                    }
                     Console.Clear();
                     break;
                 case 3:
